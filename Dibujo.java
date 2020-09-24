@@ -64,7 +64,8 @@ public class Dibujo extends JPanel {
     @Override
     protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-       
+       this.coordenada_x=(int)(Math.random()*500);
+       this.coordenada_y=(int)(Math.random()*500);
         System.out.println("Coordenada en x"+coordenada_x);
         System.out.println("Coordenada en y"+coordenada_y);
         //iterador de la figura
@@ -84,37 +85,23 @@ public class Dibujo extends JPanel {
         }
     }
     public void dibujar(){
-        int a=0,j=0;
-       this.coordenada_x=(int)(Math.random()*500);
-       this.coordenada_y=(int)(Math.random()*500);
-       int eje=1;//(int)(Math.random()*2);
-        System.out.println("Direccion"+eje);
-       int dir=(int)(Math.random()*2);
-        System.out.println("Direccion"+dir);
-        if(dir==0){
-           a=-10;
-        }else
-            a=-10;
-        for (int i = 0; i < 10; i++) {
-            System.out.println("Interacion: "+j);
-            j++;
+       int j=0;
+        do {
+            
             try {
                 if(coordenada_x>10 && coordenada_y>10&&coordenada_x<450 && coordenada_y<450){
-                if(eje==0){
-                this.coordenada_x=this.coordenada_x+a;
-                }else{
-                 this.coordenada_y=this.coordenada_y+a;   
-                }
                 this.hilo.sleep(1000);//medio segundo
                 paint(getGraphics());
                 }else{
                     this.coordenada_x=(int)(Math.random()*500);
                     this.coordenada_y=(int)(Math.random()*500);
                     System.out.println("Choque, reubicando");
+                    System.out.println("colision: "+j);
+            j++;
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-        }
+        }while(j<10);
     }
 }
