@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -15,16 +16,17 @@ import javax.swing.JPanel;
  *
  * @author brandon osmar
  */
-public class Ventana extends JPanel {
+public class Ventana extends JPanel implements ActionListener{
     // ventana
+    int op;
     private JFrame ventana;
     // contenedor
     private Container contenedor;
     //declarar la figura
     private Punto figura[];
-    JMenuBar arc;
-JMenu uno, dos, tres;
-JMenuItem u1,u2,u3,d1,d2,d3,t1,t2;
+    public JMenuBar arc;
+    public JMenu uno, dos, tres;
+    public JMenuItem u1,u2,u3,d1,d2,d3,t1,t2;
 
 
     /**
@@ -39,7 +41,6 @@ JMenuItem u1,u2,u3,d1,d2,d3,t1,t2;
         ventana.setSize(800, 600);
         arc = new JMenuBar();
         uno = new JMenu("Acciones");
-        uno.setLocation(2, 10);
         uno.setBorder(BorderFactory.createLineBorder(Color.BLUE));
         u1 = new JMenuItem("Rotar derecha",new javax.swing.ImageIcon(getClass().getResource("derecha.png")));
         u2 = new JMenuItem("Rotar Izquierda",new javax.swing.ImageIcon(getClass().getResource("izquierda.png")));
@@ -49,6 +50,9 @@ JMenuItem u1,u2,u3,d1,d2,d3,t1,t2;
         uno.add(u1);
         uno.add(u2);
         uno.add(u3);
+        u1.addActionListener(this);
+        u2.addActionListener(this);
+        u3.addActionListener(this);
 
         ventana.setVisible(true);
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -66,19 +70,35 @@ JMenuItem u1,u2,u3,d1,d2,d3,t1,t2;
         //Dibujar la figura original
         g.setColor(Color.red);
         this.dibujar(g);
-        
+       /* switch(op){
+            case 1:
+                this.Rotacion(10);
+                this.dibujar(g);
+                break;
+            case 2:
+                this.rotacionneg(10);
+                this.dibujar(g);
+                break;
+            case 3:
+                this.traslacion(50,50);
+                this.dibujar(g);
+                break;
+        }*/        
         
     }
-    public void accion(ActionEvent e,Graphics g){
-        if(e.getSource()==u1){
-            this.Rotacion(30);
-            this.dibujar(g);
+    public void actionPerformed(ActionEvent e){
+        if(e.getSource() == u1){
+            this.Rotacion(10);
+            System.out.println("evento 1");
+            
         }
         if(e.getSource()==u2){
-            this.rotacionneg(30);
+            this.rotacionneg(10);
+            System.out.println("evento 2");
         }
-        if(e.getSource()==u1){
-            this.traslacion(200, 200);
+        if(e.getSource()==u3){
+            this.traslacion(50, 50);
+            System.out.println("evento 3");
         }
     }
     public void traslacion(int xf, int yf){
