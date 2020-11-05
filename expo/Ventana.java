@@ -15,13 +15,13 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JToolBar;
+
 
 /**
  *
@@ -36,8 +36,10 @@ public class Ventana extends JPanel implements ActionListener{
     //declarar la figura
     private Punto figura[];
     public JMenuBar arc;
-    public JMenu uno, dos, tres;
-    public JMenuItem u1,u2,u3,d1,d2,d3,t1,t2;
+    public JMenu uno, dos;
+    public JMenuItem u1,u3;
+    public JButton b;
+    public JLabel t;
 
     /**
      * Crear una ventana para representar la figura
@@ -52,13 +54,23 @@ public class Ventana extends JPanel implements ActionListener{
         setLayout(new FlowLayout(FlowLayout.LEFT, 2, 0));
         arc = new JMenuBar();
         uno = new JMenu("Acciones");
+        dos = new JMenu("Accion 2");
         uno.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        dos.setBorder(BorderFactory.createLineBorder(Color.yellow));
         u3 = new JMenuItem("Trasladar",new javax.swing.ImageIcon(getClass().getResource("flecha.png")));
+        u1 = new JMenuItem("Rotacion");
         add(arc);
         arc.add(uno);
+        arc.add(dos);
         uno.add(u3);
+        dos.add(u1);
         u3.addActionListener(this);
-
+        u1.addActionListener(this);
+        b = new JButton("salir");
+        b.setBounds(100, 150, 100, 30);
+        b.addActionListener(this);
+        add(b);
+        t=new JLabel("salir");
         ventana.setVisible(true);
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ventana.setResizable(false);
@@ -84,13 +96,33 @@ public class Ventana extends JPanel implements ActionListener{
             this.traslacion(x,y);
             ventana.repaint();
         }
+        if(e.getSource()==u1){
+            double angulo;
+            angulo=Double.parseDouble(JOptionPane.showInputDialog("Ingrese el valor del angulo"));
+            this.Rotacion(angulo);
+            repaint();
+        }
+        if(e.getSource()==b){
+            System.out.println("hola");
+        }
     }
+        
     public void traslacion(int xf, int yf){
         for (Punto punto : figura) {
         //punto x:((x - xf) 
         //punto y: ((y - yf)
             punto.setX((int)(punto.getX() + xf));
             punto.setY((int)(punto.getY() + yf));
+        }
+    }
+    public void Rotacion (double angulo){
+        int tx=figura[0].getX(),ty=figura[0].getY();
+        for (Punto punto : figura) {
+        //punto x:(x - tx) * cos – (b – ty) * sin + tx
+        //punto y: (x - ty) * sin + (b – ty) * cos + ty
+            punto.setX((int)((punto.getX() - tx)*Math.cos(Math.toRadians(angulo))-(punto.getY()-ty)*Math.sin(Math.toRadians(angulo))+tx));
+            //punto y
+            punto.setY((int)((punto.getX() - ty)*Math.sin(Math.toRadians(angulo))+(punto.getY()-ty)*Math.cos(Math.toRadians(angulo))+ty));
         }
     }
     private void dibujar(Graphics g){
